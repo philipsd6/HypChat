@@ -145,7 +145,8 @@ class Room(RestObject):
         Allows a user to send a message to a room.
         """
         data = {'message': message}
-        self._requests.post(self.url + '/message', data=data)
+        resp = self._requests.post(self.url + '/message', data=data)
+        return Linker._obj_from_text(resp.text, self._requests)
 
     def notification(self, message, color=None, notify=False, format=None):
         """
