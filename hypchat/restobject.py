@@ -148,7 +148,7 @@ class Room(RestObject):
         resp = self._requests.post(self.url + '/message', data=data)
         return Linker._obj_from_text(resp.text, self._requests)
 
-    def notification(self, message, card=None, color=None, notify=False, format=None, attach_to=None):
+    def notification(self, message, color=None, notify=False, format=None, card=None, attach_to=None):
         """
         Send a message to a room.
         """
@@ -157,9 +157,13 @@ class Room(RestObject):
                 format = 'text'
             else:
                 format = 'html'
-        data = {'message': message, 'card': card, 'notify': notify, 'message_format': format, 'attach_to': attach_to}
+        data = {'message': message, 'notify': notify, 'message_format': format}
         if color:
             data['color'] = color
+        if card:
+            data['card'] = card
+        if attach_to:
+            data['attach_to'] = attach_to
         self._requests.post(self.url + '/notification', data=data)
 
     def topic(self, text):
